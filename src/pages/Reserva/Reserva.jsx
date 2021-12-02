@@ -14,7 +14,7 @@ const ReservaViaje = () => {
   const [dia, setDia] = useState(0)
   
 
-  const handleClick = async (e) => {
+  const handleSubmit = async (e) => {
     swal.fire(
       'Listo!',
       'Tu reserva ha sido realizada.',
@@ -23,8 +23,8 @@ const ReservaViaje = () => {
     e.preventDefault();
     console.log(name+" "+email+" "+lugar+" "+fecha+" "+person+" "+dia+" ")
     //axios.post("http://localhost:8000/formulario", newFormulario);
-    await axios.post("https://backend-grupo-03.herokuapp.com/api/form", {name,email,lugar,fecha,person,dia}).then(res=>{
-      console.log("Exclente")
+    await axios.post("http://localhost:5000/api/form", {name,email,lugar,fecha,person,dia}).then(res=>{
+      console.log("Formulario guardado")
     })
     setName("")
     setEmail("")
@@ -131,7 +131,7 @@ const ReservaViaje = () => {
             </div>
 
             <button
-              onClick={handleClick}
+              onClick={handleSubmit}
               type="submit"
               className="btn btn-primary"
             >

@@ -3,7 +3,7 @@ const PiePagina = () =>{
     return (
     <div>
         <footer>
-            <div class="text-center">
+            <div class="text-center container p-4">
                 
                 <figure>
                 

@@ -10,7 +10,8 @@ const VerReservacion = () => {
   const [reserva, setReserva] = useState([])
 
 
-  const handleDelete =(formulario)=>{
+  const handleDelete = async(formulario)=>{
+    
     swal.fire({
       title: "¿Deseas eliminar esta reserva?",
       text: "No podrás recuperarla una vez eliminada.",
@@ -22,18 +23,30 @@ const VerReservacion = () => {
       cancelButtonText:"Cancelar"
     }).then((result) => {
       if (result.isConfirmed) {
-        swal.fire(
-          'Hecho!',
-          'Has eliminado la reserva!',
-          'success'
-        )
+        formulario.preventDefault();
+        axios.delete("http://localhost:5000/api/formulario/" + email)
+        .then((respuesta)=>{
+          swal.fire(
+            'Hecho!',
+            'Has eliminado la reserva!',
+            'success'
+          );
+           console.log(respuesta);
+          //  handleClick();
+        })
+        .catch((error)=>{
+          console.log(error);
+        })
       }
     })
   }
+
+  
+
   const handleClick = async (e) => {
     e.preventDefault();
-    await axios.get("https://backend-grupo-03.herokuapp.com/api/formulario/"+email).then(res=>{
-      console.log("Excelente")
+    await axios.get("http://localhost:5000/api/formulario/" + email).then(res=>{
+      console.log("Reserva traída")
       console.log(res.data)
       setReserva(res.data)
     })
@@ -50,7 +63,7 @@ const VerReservacion = () => {
             <legend className="text-center card-header fw-bolder">
               <h1>Ver reservaciones realizadas</h1>
             </legend>
-            <div class="form-floating mb-3">
+            {/* <div class="form-floating mb-3">
               <input
                 type="input"
                 class="form-control"
@@ -60,7 +73,7 @@ const VerReservacion = () => {
               <label for="floatingInput">
                 Nombre de la persona que hizo la reserva
               </label>
-            </div>
+            </div> */}
             <div class="form-floating mb-3">
               <input
               onChange={e=>setEmail(e.target.value)}
@@ -127,7 +140,7 @@ const VerReservacion = () => {
           <p style={{textAlign:'center',marginBottom:'10rem'}}>Hay ({reserva.length}) reservas asociadas a este correo.</p>
         }
         
-        <div class="d-grid gap-2 d-md-block">
+        <div class="d-grid gap-2 col-3 p-4 mx-auto">
           <NavLink to="/reserva-viaje"><button class="btn btn-primary large" type="button">Hacer una nueva reserva</button></NavLink>
           </div>
          
