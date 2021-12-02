@@ -1,46 +1,51 @@
-import axios from "axios";
 import React from "react";
-import { useState } from "react";
-import swal from "sweetalert2";
+import { useState, useEffect } from "react";
+import axios from "axios"
 
-const ReservaViaje = () => {
-  
-  
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [lugar, setLugar] = useState()
-  const [fecha, setFecha] = useState('')
-  const [person, setPerson] = useState(0)
-  const [dia, setDia] = useState(0)
-  
+const EditarReserva = () => {
 
-  const handleClick = async (e) => {
-    swal.fire(
-      'Listo!',
-      'Tu reserva ha sido realizada.',
-      'success'
-    )
-    e.preventDefault();
-    console.log(name+" "+email+" "+lugar+" "+fecha+" "+person+" "+dia+" ")
-    //axios.post("http://localhost:8000/formulario", newFormulario);
-    await axios.post("https://backend-grupo-03.herokuapp.com/api/form", {name,email,lugar,fecha,person,dia}).then(res=>{
-      console.log("Exclente")
-    })
-    setName("")
-    setEmail("")
-    setLugar()
-    setFecha()
-    setPerson(0)
-    setDia(0)
-  }
+    const [id, setId] =useState("");
+    const [reserva, setReserva] = useState([])
 
-  return (
+    const obtenerFormulario =() =>{
+        axios.get("http://localhost:500/api/formulario")
+        .then((respuesta)=>{
+            setReserva(respuesta.data)
+            console.log(respuesta.data);
+        }).catch((error)=>{
+            console.log(error)
+        })
+    }
+    useEffect(()=>{
+        obtenerFormulario();
+
+
+    },[])
+    // const handleEdit = async (e) => {
+    //     e.preventDefault();
+    //     await axios.get("https://localhost:5000/api/formulario/"+id).then(res=>{
+    //       console.log("Excelente")
+    //       console.log(res.data)
+    //       setReserva(res.data)
+    //     })
+    //   }
+    
+    return(
     <React.Fragment>
-      <div className="container">
-        <form>
-          <fieldset>
+        <div className="container">
+
+            <textarea name="" id="" cols="30" rows="10">
+                {reserva.map((reserva)=>
+                <reserva
+                key={reserva.name}
+                fecha={reserva.fecha}
+                />)}
+            </textarea>
+
+            {/* <form >
+            <fieldset>
             <legend className="text-center card-header fw-bolder">
-              <h1>Por favor ingrese la información solicitada</h1>
+              <h1>Por favor seleccione los datos que desa cambiar</h1>
             </legend>
             <label for="floatingInput">Nombre completo:</label>
             <div className="mb-3">
@@ -131,18 +136,21 @@ const ReservaViaje = () => {
             </div>
 
             <button
-              onClick={handleClick}
+            //   onClick={handleEdit}
               type="submit"
               className="btn btn-primary"
             >
-              Enviar Reserva
+              Confirmar cambios
             </button>
             
 
-          </fieldset>
-        </form>
-      </div>
+          </fieldset>   
+            </form> */}
+        </div>
+
     </React.Fragment>
-  );
-};
-export default ReservaViaje;
+        
+     );
+}
+ 
+export default EditarReserva;

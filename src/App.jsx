@@ -8,6 +8,7 @@ import Encabezado from './components/Header';
 import Footer from './components/Footer';
 import VerReservacion from './pages/VerReservaciones/VerRes';
 import Informacion from "./pages/Lugares/Informacion"
+import EditarReserva from "./pages/VerReservaciones/EditarReserva"
 
 
 import {
@@ -42,6 +43,9 @@ function App() {
           </Route>
           <Route path="/equipo-trabajo">
           <EquipoTrabajo />
+          </Route>
+          <Route path="/editar-reserva">
+          <EditarReserva />
           </Route>
           <Route path="/informacion/:id/:name">
               <Informacion />
